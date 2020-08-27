@@ -29,16 +29,20 @@ vencedor
 setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 load("vetor.RData")
 
-#vetor01[is.na(vetor01)] <- 0 #substituindo os NA por 0
-
 x <- vetor01[c(!is.na(vetor01))] #lista apenas dos alunos com nota
 mean(x)           #media
 median(x)         #mediana
 sd(x)             #desvio padrao
 length(which(is.na(vetor01))) #numero de alunos que faltaram
 mean(is.na(vetor01))  #procentagem dos alunos que faltaram
+length(x[x > 7.0 & x < 8.0]) #numero de alunos com notas entre 7 e 8
+length(x[x > 9.0 | x < 1.0]) #numero de alunos com notas menor que 1 ou maior que 9
 
-#duvida!!!!!!!!!!!
-length(x > 7.0 & x < 8.0) #numero de alunos com notas entre 7 e 8
-length(x > 9.0 | x < 1.0) #numero de alunos com notas menor que 1 ou maior que 9
 
+#vetor01[is.na(vetor01)] <- 0 #substituindo os NA por 0
+vetor01 <- vetor01[!is.na(vetor01)] #sim
+vetor01 <- vetor01[is.na(vetor01)]  #nao
+vetor01 <- !is.na(vetor01)          #nao
+vetor01[!is.na(vetor01)] -> vetor01 #sim
+vetor01 <- vetor01[-which(is.na(vetor01))] #sim
+vetor01 <- vetor01[which(is.na(vetor01))]  #

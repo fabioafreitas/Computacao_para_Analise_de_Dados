@@ -1,0 +1,37 @@
+Class,Site,Male Cases,Female Cases,Male Deaths,Female Deaths
+Oral,Tongue,12550,4510,2220,800
+Oral,Mouth,8430,5880,1800,940
+Oral,Pharynx,14450,3420,2660,790
+Digestive System,Eosophagus,13750,3900,13020,3060
+Digestive System,Stomach,17230,10280,6800,4340
+Digestive System,Small intestine,5610,1980,890,700
+Digestive System,Colon,51690,49730,27640,23380
+Digestive System,liver,29480,12550,21600,10180
+Digestive System,gall,5810,6550,1610,2350
+Digestive System,pancreas,29940,26830,23800,21950
+respiritory,larynx,9860,2550,3010,750
+respiritory,lung,116440,111710,76650,66020
+bone,bone,2030,1470,960,700
+soft tissue,heart,7240,5510,2840,2430
+soft tissue,skin,62320,42030,8030,3620
+soft tissue,breast,2670,268600,500,41760
+urinary,bladder,61700,18770,12870,4800
+urinary,kidney,44120,29700,9820,4950
+urinary,ureter,2630,1300,600,380
+brain,brain,13410,10410,9910,7850
+endocrine,thyroid,14260,37810,1020,1150
+endocrine,other endocrine,1390,1280,540,500
+lymphoma,hodgkin,4570,3540,590,410
+lymphoma,non-hodgkin,41090,33110,11510,8460
+leukemia,acute lymphocytic,3280,2650,850,650
+leukemia,chronic lymphocytic,12880,7840,2220,1710
+leukemia,acute myeloid,11650,9800,6290,4630
+leukemia,chronic myeloid,5250,3740,660,480
+genital,cervix,NA,13170,NA,4250
+genital,uterine corpus,NA,61880,NA,12160
+genital,Ovary,NA,22530,NA,13980
+genital,Vulva,NA,6070,NA,1280
+genital,female genital,NA,5350,NA,1430
+genital,Prostate,174650,NA,31620,NA
+genital,Testis,9560,NA,410,NA
+genital,male genital,2080,NA,410,NA
