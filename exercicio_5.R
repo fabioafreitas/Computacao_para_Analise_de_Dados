@@ -45,7 +45,7 @@ nrow(airquality[complete.cases(airquality), ])
 # genomas <- as.data.frame(read.csv("https://www.dropbox.com/s/vgh6qk395ck86fp/genomes.csv?dl=1")). 
 # De posse desse dado, responda as perguntas abaixo. 
 setwd(dirname(rstudioapi::getSourceEditorContext()$path))
-genomas <- as.data.frame(read.csv("genomes.csv"))
+genomas <- as.data.frame(read.csv("./datasets/genomes.csv"))
 
 # Selecione os organismos com mais de 40 cromossomos. *
 aux <- genomas[genomas$Chromosomes > 40,]
@@ -75,11 +75,17 @@ length(levels(as.factor(genomas$Groups)))
 # cancer_stats <- as.data.frame(read.csv("https://www.dropbox.com/s/g97bsxeuu0tajkj/cancer_stats.csv?dl=1")). 
 # De posse desse dado, responda as perguntas abaixo.
 setwd(dirname(rstudioapi::getSourceEditorContext()$path))
-cancer_stats <- as.data.frame(read.csv("cancer_stats.csv")) 
+cancer_stats <- as.data.frame(read.csv("./datasets/cancer_stats.csv")) 
 
 # Para qual local do câncer (site) do sistema digestivo (Digestive System) existem mais casos femininos do que masculinos? *
 aux <- cancer_stats[cancer_stats$Class == "Digestive System",]
 aux[aux$Female.Cases > aux$Male.Cases,]$Site
+
+
+
+###############################################################################
+
+
 
 # Qual local do câncer tem a melhor taxa de sobrevivência para os homens? *
 score_padronizado <- function(v) {
@@ -96,7 +102,21 @@ aux <- aux[
 ]
 aux[which.max(aux$score),]$Site
 
-# Qual local do câncer tem a melhor taxa de sobrevivência para os homens? *
+
+#correção da questao acima
+cancer_stats$taxa_S_M <-cancer_stats$Male.Deaths/cancer_stats$Male.Cases
+
+subset(cancer_stats,
+       subset = min(taxa_S_M, na.rm = T)==taxa_S_M,
+       select = "Site")
+
+
+
+###############################################################################
+
+
+
+#Qual local do câncer tem a melhor taxa de sobrevivência para os homens? *
 score_padronizado <- function(v) {
   return((v - mean(v))/sd(v))
 }
@@ -111,3 +131,10 @@ aux <- aux[
 ]
 aux[which.min(aux$score),]$Site
 
+
+#correção da questao acima
+cancer_stats$taxa_S_F <-cancer_stats$Female.Deaths/cancer_stats$Female.Cases
+
+subset(cancer_stats,
+       subset = max(taxa_S_F, na.rm = T)==taxa_S_F,
+       select = "Site")

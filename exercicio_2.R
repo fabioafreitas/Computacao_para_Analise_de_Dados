@@ -10,8 +10,9 @@ a <- round(a, digits = 3)
 
 #derivadas
 derivada <- deriv(~sin(x)+x,'x',func = T)
-result_derivada <- attr(func(2),'gradient')
+result_derivada <- attr(derivada(2),'gradient')
 round_derivada <- round(result_derivada, 3)
+round_derivada
 
 #factorial
 fact <- log10(factorial(10))

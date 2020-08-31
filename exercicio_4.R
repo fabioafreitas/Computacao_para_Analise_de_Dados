@@ -78,7 +78,7 @@ lista$Temp
 #linhas e os dias através das colunas. Diante de tais dados,resolva
 #as questões abaixo.
 setwd(dirname(rstudioapi::getSourceEditorContext()$path))
-load("chuvas.RData")
+load("./datasets/chuvas.RData")
 
 #Qual a média do volume diário de chuvas do período observado? 
 mean(rowMeans(chuvas))

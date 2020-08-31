@@ -27,7 +27,7 @@ vencedor
 
 #quinto "vetor.RData precisa estar no mesmo folder deste script"
 setwd(dirname(rstudioapi::getSourceEditorContext()$path))
-load("vetor.RData")
+load("./datasets/vetor.RData")
 
 x <- vetor01[c(!is.na(vetor01))] #lista apenas dos alunos com nota
 mean(x)           #media
@@ -46,3 +46,4 @@ vetor01 <- !is.na(vetor01)          #nao
 vetor01[!is.na(vetor01)] -> vetor01 #sim
 vetor01 <- vetor01[-which(is.na(vetor01))] #sim
 vetor01 <- vetor01[which(is.na(vetor01))]  #
+
