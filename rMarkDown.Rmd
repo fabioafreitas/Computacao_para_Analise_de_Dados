@@ -1,0 +1,396 @@
+---
+title: "Aprendendo R Markdown"
+author: "Fábio Alves de Freitas"
+date: "01/10/2020"
+output: html_document
+bibliography: C:\\Users\\fabio\\Desktop\\PLE\\Computacao_Analise_de_Dados\\atividades\\bibliography.bib 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# {.tabset}
+
+## Questão 1 
+
+Nuvem de palavra do discurso “Eu tenho um sonho” de Martin Luther King Jr. Também plote as palavras mais frequentes.
+
+### Baixando e Importando Bibliotecas
+
+Para esta questão estaremos utilizando as bibliotecas: "tm", "readr" e "wordcloud". Para baixá-las e importá-las, execute os comandos abaixo.
+```
+install.packages("tm")
+install.packages("readr")
+install.packages("wordcloud")
+
+library(tm)
+library(readr)
+library(wordcloud)
+```
+```{r, include=FALSE}
+library(tm)
+library(readr)
+library(wordcloud)
+```
+
+### Obtendo o discurso “Eu tenho um sonho” de Martin Luther King
+
+O discurso pode ser obtido a partir do seguinte [Link](http://www.dhnet.org.br/desejos/sonhos/dream.htm)
+
+```{r}
+discurso <- "Eu estou contente em unir-me com vocês no dia que entrará para a história como a maior demonstração pela liberdade na história de nossa nação.
+
+Cem anos atrás, um grande americano, na qual estamos sob sua simbólica sombra, assinou a Proclamação de Emancipação. Esse importante decreto veio como um grande farol de esperança para milhões de escravos negros que tinham murchados nas chamas da injustiça. Ele veio como uma alvorada para terminar a longa noite de seus cativeiros.
+Mas cem anos depois, o Negro ainda não é livre.
+Cem anos depois, a vida do Negro ainda é tristemente inválida pelas algemas da segregação e as cadeias de discriminação.
+Cem anos depois, o Negro vive em uma ilha só de pobreza no meio de um vasto oceano de prosperidade material. Cem anos depois, o Negro ainda adoece nos cantos da sociedade americana e se encontram exilados em sua própria terra. Assim, nós viemos aqui hoje para dramatizar sua vergonhosa condição.
+
+De certo modo, nós viemos à capital de nossa nação para trocar um cheque. Quando os arquitetos de nossa república escreveram as magníficas palavras da Constituição e a Declaração da Independência, eles estavam assinando uma nota promissória para a qual todo americano seria seu herdeiro. Esta nota era uma promessa que todos os homens, sim, os homens negros, como também os homens brancos, teriam garantidos os direitos inalienáveis de vida, liberdade e a busca da felicidade. Hoje é óbvio que aquela América não apresentou esta nota promissória. Em vez de honrar esta obrigação sagrada, a América deu para o povo negro um cheque sem fundo, um cheque que voltou marcado com fundos insuficientes.
+
+Mas nós nos recusamos a acreditar que o banco da justiça é falível. Nós nos recusamos a acreditar que há capitais insuficientes de oportunidade nesta nação. Assim nós viemos trocar este cheque, um cheque que nos dará o direito de reclamar as riquezas de liberdade e a segurança da justiça.
+
+Nós também viemos para recordar à América dessa cruel urgência. Este não é o momento para descansar no luxo refrescante ou tomar o remédio tranqüilizante do gradualismo.
+Agora é o tempo para transformar em realidade as promessas de democracia.
+Agora é o tempo para subir do vale das trevas da segregação ao caminho iluminado pelo sol da justiça racial.
+Agora é o tempo para erguer nossa nação das areias movediças da injustiça racial para a pedra sólida da fraternidade. Agora é o tempo para fazer da justiça uma realidade para todos os filhos de Deus.
+
+Seria fatal para a nação negligenciar a urgência desse momento. Este verão sufocante do legítimo descontentamento dos Negros não passará até termos um renovador outono de liberdade e igualdade. Este ano de 1963 não é um fim, mas um começo. Esses que esperam que o Negro agora estará contente, terão um violento despertar se a nação votar aos negócios de sempre
+
+. Mas há algo que eu tenho que dizer ao meu povo que se dirige ao portal que conduz ao palácio da justiça. No processo de conquistar nosso legítimo direito, nós não devemos ser culpados de ações de injustiças. Não vamos satisfazer nossa sede de liberdade bebendo da xícara da amargura e do ódio. Nós sempre temos que conduzir nossa luta num alto nível de dignidade e disciplina. Nós não devemos permitir que nosso criativo protesto se degenere em violência física. Novamente e novamente nós temos que subir às majestosas alturas da reunião da força física com a força de alma. Nossa nova e maravilhosa combatividade mostrou à comunidade negra que não devemos ter uma desconfiança para com todas as pessoas brancas, para muitos de nossos irmãos brancos, como comprovamos pela presença deles aqui hoje, vieram entender que o destino deles é amarrado ao nosso destino. Eles vieram perceber que a liberdade deles é ligada indissoluvelmente a nossa liberdade. Nós não podemos caminhar só.
+
+E como nós caminhamos, nós temos que fazer a promessa que nós sempre marcharemos à frente. Nós não podemos retroceder. Há esses que estão perguntando para os devotos dos direitos civis, Quando vocês estarão satisfeitos?
+
+Nós nunca estaremos satisfeitos enquanto o Negro for vítima dos horrores indizíveis da brutalidade policial. Nós nunca estaremos satisfeitos enquanto nossos corpos, pesados com a fadiga da viagem, não poderem ter hospedagem nos motéis das estradas e os hotéis das cidades. Nós não estaremos satisfeitos enquanto um Negro não puder votar no Mississipi e um Negro em Nova Iorque acreditar que ele não tem motivo para votar. Não, não, nós não estamos satisfeitos e nós não estaremos satisfeitos até que a justiça e a retidão rolem abaixo como águas de uma poderosa correnteza.
+
+Eu não esqueci que alguns de você vieram até aqui após grandes testes e sofrimentos. Alguns de você vieram recentemente de celas estreitas das prisões. Alguns de vocês vieram de áreas onde sua busca pela liberdade lhe deixaram marcas pelas tempestades das perseguições e pelos ventos de brutalidade policial. Você são o veteranos do sofrimento. Continuem trabalhando com a fé que sofrimento imerecido é redentor. Voltem para o Mississippi, voltem para o Alabama, voltem para a Carolina do Sul, voltem para a Geórgia, voltem para Louisiana, voltem para as ruas sujas e guetos de nossas cidades do norte, sabendo que de alguma maneira esta situação pode e será mudada. Não se deixe caiar no vale de desespero.
+
+Eu digo a você hoje, meus amigos, que embora nós enfrentemos as dificuldades de hoje e amanhã. Eu ainda tenho um sonho. É um sonho profundamente enraizado no sonho americano.
+
+Eu tenho um sonho que um dia esta nação se levantará e viverá o verdadeiro significado de sua crença - nós celebraremos estas verdades e elas serão claras para todos, que os homens são criados iguais.
+
+Eu tenho um sonho que um dia nas colinas vermelhas da Geórgia os filhos dos descendentes de escravos e os filhos dos desdentes dos donos de escravos poderão se sentar junto à mesa da fraternidade.
+
+Eu tenho um sonho que um dia, até mesmo no estado de Mississippi, um estado que transpira com o calor da injustiça, que transpira com o calor de opressão, será transformado em um oásis de liberdade e justiça.
+
+Eu tenho um sonho que minhas quatro pequenas crianças vão um dia viver em uma nação onde elas não serão julgadas pela cor da pele, mas pelo conteúdo de seu caráter. Eu tenho um sonho hoje!
+
+Eu tenho um sonho que um dia, no Alabama, com seus racistas malignos, com seu governador que tem os lábios gotejando palavras de intervenção e negação; nesse justo dia no Alabama meninos negros e meninas negras poderão unir as mãos com meninos brancos e meninas brancas como irmãs e irmãos. Eu tenho um sonho hoje!
+
+Eu tenho um sonho que um dia todo vale será exaltado, e todas as colinas e montanhas virão abaixo, os lugares ásperos serão aplainados e os lugares tortuosos serão endireitados e a glória do Senhor será revelada e toda a carne estará junta.
+
+Esta é nossa esperança. Esta é a fé com que regressarei para o Sul. Com esta fé nós poderemos cortar da montanha do desespero uma pedra de esperança. Com esta fé nós poderemos transformar as discórdias estridentes de nossa nação em uma bela sinfonia de fraternidade. Com esta fé nós poderemos trabalhar juntos, rezar juntos, lutar juntos, para ir encarcerar juntos, defender liberdade juntos, e quem sabe nós seremos um dia livre. Este será o dia, este será o dia quando todas as crianças de Deus poderão cantar com um novo significado.
+
+Meu país, doce terra de liberdade, eu te canto.
+
+Terra onde meus pais morreram, terra do orgulho dos peregrinos,
+
+De qualquer lado da montanha, ouço o sino da liberdade!
+
+E se a América é uma grande nação, isto tem que se tornar verdadeiro.
+
+E assim ouvirei o sino da liberdade no extraordinário topo da montanha de New Hampshire.
+
+Ouvirei o sino da liberdade nas poderosas montanhas poderosas de Nova York.
+
+Ouvirei o sino da liberdade nos engrandecidos Alleghenies da Pennsylvania.
+
+Ouvirei o sino da liberdade nas montanhas cobertas de neve Rockies do Colorado.
+
+Ouvirei o sino da liberdade nas ladeiras curvas da Califórnia.
+
+Mas não é só isso. Ouvirei o sino da liberdade na Montanha de Pedra da Geórgia.
+
+Ouvirei o sino da liberdade na Montanha de Vigilância do Tennessee.
+
+Ouvirei o sino da liberdade em todas as colinas do Mississipi.
+
+Em todas as montanhas, ouviu o sino da liberdade.
+
+E quando isto acontecer, quando nós permitimos o sino da liberdade soar, quando nós deixarmos ele soar em toda moradia e todo vilarejo, em todo estado e em toda cidade, nós poderemos acelerar aquele dia quando todas as crianças de Deus, homens pretos e homens brancos, judeus e gentios, protestantes e católicos, poderão unir mãos e cantar nas palavras do velho spiritual negro:
+
+Livre afinal, livre afinal.
+
+Agradeço ao Deus todo-poderoso, nós somos livres afinal."
+```
+
+### Tratamento e Limpeza do texto do discurso
+
+Iniciaremos convertendo o formato **string** do texto para **Corpus** para utilizar a biblioteca **tm**, que possui muitas funções que facilitam o tratamento e limpeza de textos.
+```{r, results='hide'}
+VS <- VectorSource(discurso)
+corpus <- Corpus(VS)
+inspect(corpus)
+```
+
+Transformaremos todos os caracteres para minúsculo.
+```{r, results='hide'}
+corpus <- tm_map(corpus, content_transformer(tolower))
+```
+
+Removemos todos os simbolos de pontuação de texto, como vírgulas, pontos, etc.
+```{r, results='hide'}
+corpus <- tm_map(corpus, removePunctuation)
+```
+
+Removemos todos os espaços em branco adicionais.
+```{r, results='hide'}
+corpus <- tm_map(corpus, stripWhitespace)
+```
+
+Removemos todos os números.
+```{r, results='hide'}
+corpus <- tm_map(corpus, removeNumbers)
+```
+
+Removemos as stopwords, ou seja, as palavras que servem como conectivos numa sentença. Elas são muito frequentes e nem sempre agregam muito valor para o processamento de linguagem natural, desta forma precisam ser removidas.
+```{r, results='hide'}
+corpus <- tm_map(corpus, removeWords, stopwords('portuguese'))
+```
+
+O formato dos dados ainda não é tão simples de ser analisado, por isto o converteremos para um formato de matriz, que associará cada palavra com sua frequência de aparição.
+```{r, results='hide'}
+tdm <- as.matrix(TermDocumentMatrix(corpus))
+```
+
+Em seguida, ordenaremos esta matriz de acordo com as palavras de maior frequência no texto.
+```{r, results='hide'}
+fre <- sort(rowSums(tdm), decreasing = T)
+```
+
+### Gráfico em barras das palavras mais frequentes
+
+Para o gráfico, apresentaremos apenas as palavras que possuem frequência maior do que 2.
+```{r most_frequent_words_plot,  fig.width=10, fig.height=10}
+aux <- subset(fre, fre>2)
+barplot(aux, las=2, col=rainbow(10))
+```
+
+### Nuvem de palavras do discurso
+
+Após o pré-processamento, estamos prontos para visualizar a nuvem de palavras mais frequentes do discurso.
+```{r wordcloud_discurso}
+wordcloud(
+  corpus, 
+  min.freq = 1,
+  max.words=60,
+  random.order=F,
+  rot.per=0.15,
+  colors=brewer.pal(8, "Dark2"),
+  scale=c(6,.2)
+)
+```
+
+## Questão 2
+
+Nuvem de palavra a partir dos twitters sobre Black Live Matters. Também faça uma análise de sentimentos com relação a esses twitters coletados.
+
+### Baixando e Importando Bibliotecas
+
+Para esta questão estaremos utilizando as bibliotecas: "tm", "twitteR", "syuzhet", "wordcloud" e "RColorBrewer". Para baixá-las e importá-las, execute os comandos abaixo.
+```
+install.packages("tm")
+install.packages("twitteR")
+install.packages("syuzhet")
+install.packages("wordcloud")
+install.packages("RColorBrewer")
+
+library(tm)
+library(twitteR)
+library(syuzhet)
+library(wordcloud)
+library(RColorBrewer)
+```
+```{r, include=FALSE}
+library(tm)
+library(twitteR)
+library(syuzhet)
+library(wordcloud)
+library(RColorBrewer)
+```
+
+### Chaves de acesso à API do twitter
+
+Também será necessário ter acesso a API do twitter, para que os tweets referentes a hashtag sejam obtidos. Primeiro, será necessário ter uma conta no twitter, que pode ser criada no endereço [twitter.com](twitter.com). Em seguida, acessaremos o endereço [developer.twitter.com](developer.twitter.com), para solicitar as chaves de acesso da API.
+
+#### Autenticação das chaves da API na biblioteca twitteR
+
+As chaves podem ser acessadas no dashboard da página do twitter developer. O formato das chaves é semelhante as das apresentadas abaixo, porém, por motivos de segurança, estas não válidas.
+```
+consumer_key <- "1234Sh31234dHd7BIuHWP1234"
+consumer_secret <- "12345678fcqFPMvI6hShIfOBaXKeTKNn9VJ5ycFoXSZIuay1234"
+access_token <- "1177610586529636352-1234pkUQ0lWFdKLZdkIIui0cd1234"
+access_secret <- "1234HUksqZEQNx36xDPc8j9mkTvLeWvasZbp40MCB1234"
+```
+
+```{r, include=FALSE}
+consumer_key <- "SPo5Sh3M46QdHd7BIuHWPF1n2"
+consumer_secret <- "56fNxvBfcqFPMvI6hShIfOBaXKeTKNn9VJ5ycFoXSZIuayEE9i"
+access_token <- "1177610586529636352-wmAf2pkUQ0lWFdKLZdkIIui0cd9bpN"
+access_secret <- "c3PtHUksqZEQNx36xDPc8j9mkTvLeWvasZbp40MCBgri8"
+```
+
+Para autenticar a sessão, utilize o comando abaixo com as chaves da API referentes a sua conta.
+```{r, include=FALSE}
+setup_twitter_oauth(
+  consumer_key, 
+  consumer_secret, 
+  access_token, 
+  access_secret
+)
+```
+
+### Obtendo tweets para a #Blacklivesmatter e formatação de dados
+
+Primeiro itemos realizar uma query ao twitter, para buscar tweets referentes a uma hashtag desejada, neste caso, será a **#Blacklivesmatter**. 
+```{r, results='hide'}
+tweets <- searchTwitter("#Blacklivesmatter", n=500, lang="pt")
+```
+
+A formatação do dataframe obtido não é tão simples para ser trabalhado. Para convertê-lo a um formato mais legível utilizaremos o comando abaixo.
+```{r}
+tweets <- twListToDF(tweets)
+```
+
+Por fim, para esta etapa, contacenaremos todos o texto de todos os tweets obtidos num único texto, semelhante ao que ocorreu na questão anterior
+```{r, results='hide'}
+tweets_t <- paste(tweets$text, collapse= " ")
+```
+
+### Tratamento e Limpeza do texto dos tweets
+
+Primeiro, converteremos o agregados dos textos para o formato de **Corpus**
+```{r, results='hide'}
+VS <- VectorSource(tweets_t)
+corpus <- Corpus(VS)
+inspect(corpus)
+```
+
+Como no exemplo anterior, realizaremos alguns tratamentos no texto, como: conversão para letras em minúsculo; remoção de pontuação, como vírgulas e dois pontos; remoção de espaços em branco adicionais; e remoção de stopwords do idioma Português.
+```{r, results='hide'}
+corpus <- tm_map(corpus, tolower)
+corpus <- tm_map(corpus, removePunctuation)
+corpus <- tm_map(corpus, stripWhitespace)
+corpus <- tm_map(corpus, removeWords, stopwords('portuguese'))
+```
+
+Por estarmos tratando de textos vindo da internet, é comum a presença de outros elementos, como **urls**, que precisam ser removidas para não gerar ruidos em nosso resultados.
+```{r, results='hide'}
+removeURL <- function(x) gsub("http[^[:space:]]*", "", x)
+corpus <- tm_map(corpus, removeURL)
+```
+
+Remoção das palavras que não pertençam ao idioma Português
+```{r, results='hide'}
+removeNumPunct <- function(x) gsub("[^[:alpha:][:space:]]*", "", x)
+corpus <- tm_map(corpus, removeNumPunct)
+```
+
+Geraremos a matriz que associa a palavra ao seu número de ocorrencias
+```{r, results='hide'}
+tdm <- as.matrix(TermDocumentMatrix(corpus))
+```
+
+ordenaremos esta matriz, de acordo com a frequência de palavras
+```{r, results='hide'}
+fre <- sort(rowSums(tdm), decreasing = T)
+```
+
+### Geração da nuvem de palavras
+
+Por fim, apresentaremos a nuvem de palavras
+```{r, fig.height=7, fig.width=7}
+wordcloud(
+  corpus, 
+  min.freq = 3,
+  max.words=Inf,
+  random.order=F,
+  rot.per=0.15,
+  colors=brewer.pal(8, "Dark2"),
+  scale=c(5,.2)
+)
+```
+
+### Análise de sentimentos
+
+Para a análise de sentimentos utilizaremos a biblioteca **syuzhet**, que já possui comandos nativos para facilitar este processo.
+
+Iniciaremos obtendo os tweets referentes a hashtag, como no exemplo da wordcloud. A diferença desta etapa, é que não precisaremos concatenar os textos, mas utilizar a coluna em forma de lista como entrada aos próximos comandos.
+```
+tweets <- searchTwitter("#Blacklivesmatter", n=500, lang="pt")
+tweets <- twListToDF(tweets)
+tweets_t <- tweets$text
+```
+```{r, include=FALSE}
+tweets_t <- tweets$text
+```
+
+Todo o processo de análise de senitmentos é encapsulado neste comando **get_nrc_sentiment**. Este comando pede uma lista de textos.
+```{r, results='hide'}
+sentiments <- get_nrc_sentiment(tweets_t)
+```
+
+Por fim, apresentaremos o gráfico que apresenta o grau de cada sentimento observados nos tweets.
+```{r}
+barplot(colSums(sentiments), las=2, col = rainbow(10),
+        ylab="Contagem", main = "Sentimentos associados aos tweets do #Blacklivesmatter")
+```
+
+## Questão 3
+
+5 equações complexas usando Latex.
+
+### Teorema Fundamental da Álgebra
+
+$P(x) = a_{n}x^n + a_{n-1}x^{n-1} + ... + a_1x + a_0$
+
+$P(x) = a_{n}(x-r_1)(x-r_2)(x-r_3)...(x-r_n)$
+
+onde $r_1$, $r_2$, ..., $r_n$ são todas as raízes de $P(x)$
+
+### Teorema Fundamental do Cálculo
+
+$\int_{a}^{b} f(x)dx = F(b) - F(a)$
+
+### Definição de derivadas
+
+$f'(x) =\lim_{h\to\ 0} \frac{f(x+h)-f(x)}{h}$
+
+### Probabilidade binominal
+
+$f(y|N,p) = {{N}\choose{y}} \cdot p^y \cdot (1-p)^{N-y}$
+
+### Equação que "plota" a si mesmo
+
+para entender melhor esta equação, veja o seguinte [vídeo](https://youtu.be/_s5RFgd59ao)
+
+#### $\frac{1}{2} < \lfloor{ mod(\lfloor{\frac{y}{17}}\rfloor 2^{-17\lfloor{x}\rfloor -mod(\lfloor{y}\rfloor, 17)}, 2)}\rfloor$
+
+![fonte: wikimedia](https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Tupper%27s_self_referential_formula_plot.svg/615px-Tupper%27s_self_referential_formula_plot.svg.png)
+
+### Distância euclidiana
+
+$d = \sqrt{(x_2-x_1)^2+(y_2-y_1)^2}$
+
+
+## Questão 4 
+
+2 Figuras relacionadas a ciência de dados e 2 tabelas (dica:  use datatable() do pacote DT).
+
+![](https://i0.wp.com/datascienceacademy.com.br/blog/wp-content/uploads/2019/04/Microsoft-Team-Data-Science-Process.png)
+
+
+![](https://data-flair.training/blogs/wp-content/uploads/sites/2/2019/04/Data-Science-Applications-01.jpg)
+
+## Questão 5 
+
+5 referências usando o BibTex.
+
+Referências adicionadas:
+
+- @yerpude2017impact
+- @salman2015edge
+- @frederix2009internet
+- @yerpude2018customer
+- @perera2014survey
+
+### Referências

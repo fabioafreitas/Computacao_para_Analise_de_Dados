@@ -1,0 +1,265 @@
+---
+title: "Exercício 12"
+author: "Fábio Alves de Freitas"
+date: "03/10/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(lattice)
+library(ggplot2)
+library(dplyr)
+```
+
+# {.tabset}
+
+## Questão 1
+```{r include=FALSE}
+MRT_1F <-c(517.1468515630205, 85.13094142168089, 30.333207896694553, 12.694776264558937, 3.3041601673945418, 1.1823111717498882, 1.1892293502386786)
+MRT_3F <-c(156.68929936163462, 11.540837783562276, 0.4512835621696538, 0.4509797929766453, 0.4502068233039181, 0.4496185276300172, 0.4543157082191288)
+MRT_5F <-c(83.90319666471157, 0.3068151086494968, 0.30522314133037304, 0.3072588968084928, 0.30655265997285697, 0.3055812715727718, 0.3053297166713006)
+MRT_10F <-c(29.55430642951759, 0.19832832665772515, 0.1971923924717474, 0.19796648905716516, 0.19615594370806338, 0.2034569237883263, 0.19617420889447737)
+MRT_15F <-c(11.317736530583566, 0.167364215666193, 0.16172168266811013, 0.16701085329580515, 0.1598052657153692, 0.1645934043532696, 0.16216563797118075)
+MRT_sem_F <-c(11.93430909937736, 0.6095414637034009, 0.6060645101029295, 0.612167181646899, 0.6146761002685637, 0.6096747087200697, 0.6125810476877268)
+clock <- c(0.1, 0.5, 1, 1.5, 2, 2.5, 3)
+
+colorsBars <- c("#E6E6E6", "#666666")
+```
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+plot(clock, MRT_1F, type = "o", pch = 4, col = "black", xlab = "Tempo entre Requisições (sec.)", ylab = "Tempo de Resposta (sec.)")
+lines(clock, MRT_3F, type = "o", pch = 11, col = "green")
+lines(clock, MRT_5F, type = "o", pch = 1, col = "purple")
+lines(clock, MRT_10F, type = "o", pch = 2, col = "blue")
+lines(clock, MRT_15F, type = "o", pch = 5, col = "red")
+lines(clock, MRT_sem_F, type = "o", pch = 4, col = "yellow")
+
+legend("topright",
+       pch = c(4, 11, 1, 2, 5, 4),
+       legend = c("1 Fog", "3 Fogs", "5 Fogs", "10 Fogs", "15 Fogs", "w/o Fog"),
+       col = c("black", "green", "purple", "blue", "red", "yellow"),
+       lty=1:2)
+```
+```{r fig.width = 7, fig.height = 7, echo=FALSE, message=FALSE, warning=FALSE}
+layout(mat = matrix(c(1,2,3,4,5,6), nrow = 3, ncol = 2), widths=c(5,5), heights=c(30,30,30))
+matrix1 <- t(data.frame(MRT_sem_F, MRT_1F))
+barplot(matrix1,
+        ylab = "Tempo de Resposta (s)",
+        xlab = "Tempo entre Requisições",
+        col = colorsBars,
+        names.arg = clock,
+        log = "y",
+        beside = T)
+legend("topright",
+       col = colorsBars,
+       pch = 15,
+       legend = c("w/o Fog", "1 Fog"))
+
+matrix3 <- t(data.frame(MRT_sem_F, MRT_5F))
+barplot(matrix3,
+        ylab = "Tempo de Resposta (s)",
+        xlab = "Tempo entre Requisições",
+        col = colorsBars,
+        names.arg = clock,
+        log = "y",
+        beside = T)
+legend("topright",
+       col = colorsBars,
+       pch = 15,
+       legend = c("w/o Fog", "5 Fogs"))
+
+matrix5 <- t(data.frame(MRT_sem_F, MRT_15F))
+barplot(matrix5,
+        ylab = "Tempo de Resposta (s)",
+        xlab = "Tempo entre Requisições",
+        col = colorsBars,
+        names.arg = clock,
+        log = "y",
+        beside = T)
+legend("topright",
+       col = colorsBars,
+       pch = 15,
+       legend = c("w/o Fog", "15 Fogs"))
+
+matrix2 <- t(data.frame(MRT_sem_F, MRT_3F))
+barplot(matrix2,
+        ylab = "Tempo de Resposta (s)",
+        xlab = "Tempo entre Requisições",
+        col = colorsBars,
+        names.arg = clock,
+        log = "y",
+        beside = T)
+legend("topright",
+       col = colorsBars,
+       pch = 15,
+       legend = c("w/o Fog", "3 Fogs"))
+
+matrix4 <- t(data.frame(MRT_sem_F, MRT_10F))
+barplot(matrix4,
+        ylab = "Tempo de Resposta (s)",
+        xlab = "Tempo entre Requisições",
+        col = colorsBars,
+        names.arg = clock,
+        log = "y",
+        beside = T)
+legend("topright",
+       col = colorsBars,
+       pch = 15,
+       legend = c("w/o Fog", "10 Fogs"))
+```
+
+
+## Questão 2
+```{r message=FALSE, warning=FALSE, include=FALSE}
+table <- data.frame(
+        quality = c('Good', 'Very Good', 'Excellent'),
+        p1019 = c(53.8,43.6,2.6),
+        p2029 = c(33.9,54.2,11.9),
+        p3039 = c(2.6,60.5,36.8),
+        p4049 = c(0,21.4,78.6)
+)
+```
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+barplot(as.matrix(table[-1]),
+        xlab="Preço da refeição",
+        names.arg = c("$10-19","$20-29","$30-39","$40-49"),
+        col = c("green", "blue", "red"))
+```
+
+## Questão 3
+```{r message=FALSE, warning=FALSE, include=FALSE}
+airdata <- airquality %>%
+        mutate(celsius = ((airquality$Temp-32)/1.8))
+```
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+hist(airdata$celsius,
+     col = rainbow(10),
+     main = "Histograma de temperatura",
+     xlab = "Temperatura (Cº)",
+     ylab = "Densidade",
+     probability = T)
+densityTemp <- density((airdata$celsius))
+lines(densityTemp)
+```
+
+## Questão 4
+```{r message=FALSE, warning=FALSE, include=FALSE}
+sales <- read.table("https://training-course-material.com/images/8/8f/Sales.txt",header=TRUE)
+pct <- round(sales$SALES/sum(sales$SALES)*100)
+lbls <- paste(pct, "%", sep="")
+```
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+pie(sales$SALES,
+    labels = lbls,
+    main = "Total de vendas por país",
+    col = rainbow(nrow(sales)))
+legend("topright",
+       legend = sales$COUNTRY,
+       cex=0.8,
+       fill = rainbow(nrow(sales)))
+```
+
+
+## Questão 5
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+boxplot(count ~ spray,
+        data = InsectSprays,
+        outline = F,
+        main = "Sprays de insetos",
+        xlab = "Sprays",
+        ylab = "Contagem",
+        col = "yellow")
+```
+
+
+## Questão 6
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+plot(mtcars$wt, mtcars$mpg,
+     main = "Gráfico de dispersão: peso(wt) x milhas percorridas(mpg)",
+     ylab = "Milhas Percorridas (mpg)",
+     xlab = "Peso do carro (wt)",
+     col = mtcars$cyl,
+     pch = 15)
+abline(lm(mtcars$mpg ~ mtcars$wt), col="black")
+
+legend("topright", pch = 15, col = levels(factor(mtcars$hp)), legend = paste(levels(factor(mtcars$cyl))))
+```
+
+## Questão 7
+```{r message=FALSE, warning=FALSE, include=FALSE}
+cloudData01 <- read.csv('./datasets/monitoringCloudData_0.1.csv', header = T)
+cloudData05 <- read.csv('./datasets/monitoringCloudData_0.5.csv', header = T)
+cloudData1 <- read.csv('./datasets/monitoringCloudData_1.csv', header = T)
+cloudDatanone <- read.csv('./datasets/monitoringCloudData_NONE.csv', header = T)
+
+#Convert to GB
+gb01 <- cloudData01[ends_with("GB",vars=cloudData01$usedMemory),]
+gb05 <- cloudData05[ends_with("GB",vars=cloudData05$usedMemory),]
+gb1 <- cloudData1[ends_with("GB",vars=cloudData1$usedMemory),]
+gbnone <- cloudDatanone[ends_with("GB",vars=cloudDatanone$usedMemory),]
+
+gb01 <- mutate(gb01, usedMemoryMB = (as.numeric(gsub("GB","",usedMemory))*1000))
+gb05 <- mutate(gb05, usedMemoryMB = (as.numeric(gsub("GB","",usedMemory))*1000))
+gb1 <- mutate(gb1, usedMemoryMB = (as.numeric(gsub("GB","",usedMemory))*1000))
+gbnone <- mutate(gbnone, usedMemoryMB = (as.numeric(gsub("GB","",usedMemory))*1000))
+
+mb01 <- cloudData01[ends_with("MB",vars=cloudData01$usedMemory),]
+mb05 <- cloudData05[ends_with("MB",vars=cloudData05$usedMemory),]
+mb1 <- cloudData1[ends_with("MB",vars=cloudData1$usedMemory),]
+mbnone <- cloudDatanone[ends_with("MB",vars=cloudDatanone$usedMemory),]
+
+mb01 <- mutate(mb01, usedMemoryMB = (as.numeric(gsub("MB","",usedMemory))))
+mb05 <- mutate(mb05, usedMemoryMB = (as.numeric(gsub("MB","",usedMemory))))
+mb1 <- mutate(mb1, usedMemoryMB = (as.numeric(gsub("MB","",usedMemory))))
+mbnone <- mutate(mbnone, usedMemoryMB = (as.numeric(gsub("MB","",usedMemory))))
+
+cloudData01 <- rbind(gb01, mb01)
+cloudData05 <- rbind(gb05, mb05)
+cloudData1 <- rbind(gb1, mb1)
+cloudDatanone <- rbind(gbnone, mbnone)
+
+#Convert date
+cloudData01$currentTime <- cut(as.POSIXct(strptime(cloudData01$currentTime, "%Y-%m-%d %H:%M:%S")), breaks = "hours", labels = F)
+cloudData05$currentTime <- cut(as.POSIXct(strptime(cloudData05$currentTime, "%Y-%m-%d %H:%M:%S")), breaks = "hours", labels = F)
+cloudData1$currentTime <- cut(as.POSIXct(strptime(cloudData1$currentTime, "%Y-%m-%d %H:%M:%S")), breaks = "hours", labels = F)
+cloudDatanone$currentTime <- cut(as.POSIXct(strptime(cloudDatanone$currentTime, "%Y-%m-%d %H:%M:%S")), breaks = "hours", labels = F)
+
+cloudData01 <- arrange(cloudData01, currentTime)
+cloudData05 <- arrange(cloudData05, currentTime)
+cloudData1 <- arrange(cloudData1, currentTime)
+cloudDatanone <- arrange(cloudDatanone, currentTime)
+```
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+layout(mat = matrix(c(1,2,3,4), nrow = 2, ncol = 2))
+plot(cloudDatanone$currentTime,
+     cloudDatanone$usedMemoryMB,
+     type = "l",
+     main = "Análise da Memória (Nenhuma Carga de Trabalho)",
+     xlab = "Tempo (Horas)",
+     ylab = "Memória Utilizada (MB)")
+
+plot(cloudData05$currentTime,
+     cloudData05$usedMemoryMB,
+     type = "l",
+     main = "Análise da Memória (Carga de Trabalho de 0.5)",
+     xlab = "Tempo (Horas)",
+     ylab = "Memória Utilizada (MB)")
+
+plot(cloudData01$currentTime,
+     cloudData01$usedMemoryMB,
+     type = "l",
+     main = "Análise da Memória (Carga de Trabalho de 0.1)",
+     xlab = "Tempo (Horas)",
+     ylab = "Memória Utilizada (MB)")
+
+plot(cloudData1$currentTime,
+     cloudData1$usedMemoryMB,
+     type = "l",
+     main = "Análise da Memória (Carga de Trabalho de 1.0)",
+     xlab = "Tempo (Horas)",
+     ylab = "Memória Utilizada (MB)")
+
+```
+

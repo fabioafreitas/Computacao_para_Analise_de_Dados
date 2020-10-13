@@ -1,0 +1,10 @@
+name: Publish Document
+title:
+username:
+account: rpubs
+server: rpubs.com
+hostUrl: rpubs.com
+appId: https://api.rpubs.com/api/v1/document/670108/7a757370ad1b481283fd75d91bc6da04
+bundleId: https://api.rpubs.com/api/v1/document/670108/7a757370ad1b481283fd75d91bc6da04
+url: http://rpubs.com/fabioafreitas/670108
+when: 1601776941.58558
