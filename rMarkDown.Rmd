@@ -243,7 +243,7 @@ setup_twitter_oauth(
 
 Primeiro itemos realizar uma query ao twitter, para buscar tweets referentes a uma hashtag desejada, neste caso, será a **#Blacklivesmatter**. 
 ```{r, results='hide'}
-tweets <- searchTwitter("#Blacklivesmatter", n=500, lang="pt")
+tweets <- searchTwitter("#Blacklivesmatter", n=50, lang="pt")
 ```
 
 A formatação do dataframe obtido não é tão simples para ser trabalhado. Para convertê-lo a um formato mais legível utilizaremos o comando abaixo.
@@ -316,7 +316,7 @@ Para a análise de sentimentos utilizaremos a biblioteca **syuzhet**, que já po
 
 Iniciaremos obtendo os tweets referentes a hashtag, como no exemplo da wordcloud. A diferença desta etapa, é que não precisaremos concatenar os textos, mas utilizar a coluna em forma de lista como entrada aos próximos comandos.
 ```
-tweets <- searchTwitter("#Blacklivesmatter", n=500, lang="pt")
+tweets <- searchTwitter("#Blacklivesmatter", n=50, lang="pt")
 tweets <- twListToDF(tweets)
 tweets_t <- tweets$text
 ```

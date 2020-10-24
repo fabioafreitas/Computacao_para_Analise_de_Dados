@@ -172,10 +172,10 @@ wordcloud(
 
 ###################### WORDCLOUD TWITTER BLACK LIVES MATTER ###########
 
-install.packages("tm")
-install.packages("wordcloud")
-install.packages("twitteR")
-install.packages("RColorBrewer")
+# install.packages("tm")
+# install.packages("wordcloud")
+# install.packages("twitteR")
+# install.packages("RColorBrewer")
 
 library(twitteR)
 library(tm)
@@ -194,7 +194,7 @@ setup_twitter_oauth(
   access_secret
 )
 
-tweets <- searchTwitter("#Blacklivesmatter", n=500, lang="pt")
+tweets <- searchTwitter("#racismo", n=500, lang="pt")
 tweets <- twListToDF(tweets)
 tweets_t <- paste(tweets$text, collapse= " ")
 
@@ -231,7 +231,6 @@ wordcloud(
   colors=brewer.pal(8, "Dark2"),
   scale=c(8,.2)
 )
-?wordcloud
 
 ############################ ANALISE DE SENTIMENTOS TWITTER ############
 
