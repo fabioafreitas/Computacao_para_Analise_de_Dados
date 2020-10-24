@@ -1,0 +1,152 @@
+---
+title: "2 va"
+author: 
+date: "23/10/2020"
+output: html_document
+highlight: kate
+df_print: paged
+#code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r import_packages, message=FALSE, warning=FALSE, include=FALSE}
+list.of.packages <- c("kableExtra" ,"tm", "ggplot2", "wordcloud", "twitteR", "dplyr", "tidyr", "readr", "knitr", "syuzhet")
+lapply(list.of.packages, require, character.only = TRUE)
+options(knitr.table.format = "html")
+setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+```
+
+# Questões {.tabset}
+
+## VADeaths 
+
+Visualize o dataset VADeaths (já incluído no R) e crie um gráfico de barras empilhadas desses dados, de modo que as barras estejam agrupadas (lado a lado) para cada categoria. Também defina uma cor diferente para cada grupo das categorias. Por fim, adicione título, legenda e nomes nos eixos. Abaixo submeta o link do RPubs com o resultado dessa questão. Ela deve ficar dentro de uma aba chamada de "VADeaths"
+
+
+```{r}
+colors <- c("red","blue","green","yellow","black")
+categorias <- c("Rural Male", "Rural Female", "Urban Male", "Urban Female")
+faixaEtaria <- c("50-54","55-59","60-64","65-69","70-74")
+barplot(VADeaths, main = "Gráfico VADeaths", names.arg = categorias, 
+        xlab = "Categorias", ylab = "Mortes", col = colors)
+legend("topright", pch = c(15,15,15,15,15), col = colors, legend = faixaEtaria)
+```
+  
+
+## ClassificaçãoDoença
+
+Uma doença pode ser classificada em três estágios (leve, moderado e severo). Foram examinados 20 pacientes e obtidos os dados: moderado, leve, leve, severo, leve, moderado, moderado, moderado, leve, leve, severo,leve, moderado, moderado, leve, severo, moderado, moderado, moderado,leve. Com base nestes dados crie um gráfico de piza. Inclua a porcentagem de cada fatia, as cores das fatias e o nome do gráfico. Adicionalmente, use o comando legend() para incluir a legenda do gráfico. Abaixo submeta o link do RPubs com o resultado dessa questão. Ela deve ficar dentro de uma aba chamada de "ClassificaçãoDoença". Note que apenas um link do RPubs é necessário. Basta repetir o link abaixo se você já tiver submetido para outras questões.
+
+```{r}
+dados <- c(8, 9, 3)
+rotulos <- c("leve", "moderado", "severo")
+pct <- round(dados/sum(dados)*100)
+lbls <- paste(rotulos, pct)
+lbls <- paste(lbls, "%", sep="")
+pie(dados, labels = lbls, main = "Gráfico de doenças", col = rainbow(3))
+legend("topright", legend = rotulos, cex = 0.8, fill = rainbow(length(dados)))
+```
+
+
+## Twitters 
+
+Crie uma nuvem de palavra a partir dos twitters sobre a hashtag "#racismo". Também faça uma análise de sentimentos com relação a esses twitters coletados. Abaixo submeta o link do R Markdown com o resultado dessa questão. Ela deve ficar dentro de uma aba chamada de "Twitters". Note que apenas um link do RPubs é necessário. Basta repetir o link abaixo se você já tiver submetido para outras questões. 
+
+
+```{r, include=FALSE}
+consumer_key <- "SPo5Sh3M46QdHd7BIuHWPF1n2"
+consumer_secret <- "56fNxvBfcqFPMvI6hShIfOBaXKeTKNn9VJ5ycFoXSZIuayEE9i"
+access_token <- "1177610586529636352-wmAf2pkUQ0lWFdKLZdkIIui0cd9bpN"
+access_secret <- "c3PtHUksqZEQNx36xDPc8j9mkTvLeWvasZbp40MCBgri8"
+```
+
+
+```{r}
+setup_twitter_oauth(
+  consumer_key, 
+  consumer_secret, 
+  access_token, 
+  access_secret
+)
+
+tweets <- searchTwitter("#racismo", n=50, lang="pt")
+tweets <- twListToDF(tweets)
+tweets_t <- paste(tweets$text, collapse= " ")
+
+VS <- VectorSource(tweets_t)
+corpus <- Corpus(VS)
+inspect(corpus)
+
+#limpeza
+corpus <- tm_map(corpus, tolower)
+corpus <- tm_map(corpus, removePunctuation)
+corpus <- tm_map(corpus, stripWhitespace)
+corpus <- tm_map(corpus, removeWords, stopwords('portuguese'))
+
+#remover urls
+removeURL <- function(x) gsub("http[^[:space:]]*", "", x)
+corpus <- tm_map(corpus, removeURL)
+
+#remove tudo o que nao sejam letras em pt-br e espaço
+removeNumPunct <- function(x) gsub("[^[:alpha:][:space:]]*", "", x)
+corpus <- tm_map(corpus, removeNumPunct)
+
+#gera matriz com frequencia palavras
+tdm <- as.matrix(TermDocumentMatrix(corpus))
+
+#ordena por frequencia
+fre <- sort(rowSums(tdm), decreasing = T)
+
+wordcloud(
+  corpus, 
+  min.freq = 3,
+  max.words=Inf,
+  random.order=F,
+  rot.per=0.15,
+  colors=brewer.pal(8, "Dark2"),
+  scale=c(8,.2)
+)
+
+```
+
+```{r, include=FALSE}
+tweets_t <- tweets$text
+sentiments <- get_nrc_sentiment(tweets_t)
+```
+
+```{r}
+barplot(colSums(sentiments), las=2, col = rainbow(10),
+        ylab="Contagem", main = "Sentimentos associados aos tweets do #racismo")
+```
+
+
+## Teorema
+
+Nesta questão, demonstre o uso do teorema do limite central, usando o conjunto de dados "flu" que é altamente não normal. Esse dataset contém as frequências das idades das mortes durante a epidemia de gripe espanhola na Suíça em 1918. Considere a idade das mortes como a população. Execute os passos a seguir. (1)Mostre o histograma e a curva de densidade do conjunto de dados "flu". (2) Crie 200 médias de amostras da população com tamanho n = 35. (3) Mostre o histograma com a curva de densidade para a médias das amostras. 4) Submeta o link do RPubs com o resultado das etapas anteriores . Essa questão deve ficar dentro de uma aba chamada de "Teorema". Note que apenas um link do RPubs é necessário. Basta repetir o link abaixo se você já tiver submetido para outras questões.
+
+```{r}
+flu <- read.csv("flu.csv", header = T)
+flu <- flu$age
+hist(flu, col = 'grey', probability = T)
+densityFlu <- density(flu)
+lines(densityFlu)
+```
+
+```{r}
+n <- 200
+TamMedia <- 35
+xbar <- rep(NA, n)
+for(i in 1:n) {
+  MinhaAmostra <- sample(flu, size = TamMedia)
+  xbar[i] <- mean(MinhaAmostra)
+}
+hist(MinhaAmostra, col = 'grey', probability = T)
+densityXbar <- density(MinhaAmostra)
+lines(densityXbar)
+```
+
+
