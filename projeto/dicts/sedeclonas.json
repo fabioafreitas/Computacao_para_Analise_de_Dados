@@ -1,0 +1,92 @@
+{
+	"metadados":{
+		"cabecalho": {
+			"titulo": "Defesa Civil",
+			"descricao": "Dados das solicitações de atendimento para a Defesa Civil do Recife, das áreas de risco, das vistorias realizadas e da execução do serviço de colocação de lona",
+			"categoria_vcge": "http://vocab.e.gov.br/2011/03/vcge#defesa-civil",
+			"fonte_dados": "http://dados.recife.pe.gov.br",
+			"licenca": "Open Database License (ODbL)",
+			"responsavel_dados": "SEDEC",
+			"responsavel_disponibilizar": "EMPREL",
+			"frequencia_atualizacao": "Mensal",
+			"endereco_dataset": "http://dados.recife.pe.gov.br/dataset/monitoramento-das-areas-de-riscos",
+			"status": "ativo",
+			"endereco_dataset_substituto": "",
+			"granularidade": "",
+			"etiquetas": "Defesa Civil, codeci, defesa civi, lona, segurança, vistorias, Áreas de risco, áreas de riscos"
+		},
+		"recursos": [
+			{ 
+				"identificador": "http://dados.recife.pe.gov.br/dataset/monitoramento-das-areas-de-riscos/resource/48dd7535-329c-4a6a-bb2d-f26ebb1ab531",
+				"titulo": "SEDEC Lonas",
+				"formato": "csv",
+				"descricao": "Lonas do recife"
+			}
+		],
+		"campos": [
+			{
+				"codigo": "ano",
+				"descricao": "Ano",
+				"tipo": "Num",
+				"tamanho": 4,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "mes",
+				"descricao": "Mês",
+				"tipo": "Char",
+				"tamanho": 20,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "processo_numero",
+				"descricao": "Número do Processo",
+				"tipo": "Num",
+				"tamanho": 20,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "colocacao_lona_situacao",
+				"descricao": "Situação da lona",
+				"tipo": "Char",
+				"tamanho": 100,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "colocacao_lona_data",
+				"descricao": "Data de colocação da lona",
+				"tipo": "Num",
+				"tamanho": 15,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "colocacao_lona_justificativa",
+				"descricao": "Justificativa da colocação da lona",
+				"tipo": "Char",
+				"tamanho": 100,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "colocacao_lona_metragem",
+				"descricao": "Metragem",
+				"tipo": "Num",
+				"tamanho": 15,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "vistoria_microrregiao",
+				"descricao": "Microregião do local da vistoria",
+				"tipo": "Char",
+				"tamanho": 5,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "colocacao_lona_qtd_pontos",
+				"descricao": "Quantidade de pontos",
+				"tipo": "Num",
+				"tamanho": 1,
+				"valores_permitidos": ""
+			}
+		]
+	}
+}

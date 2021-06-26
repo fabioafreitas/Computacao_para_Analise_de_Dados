@@ -1,0 +1,211 @@
+{
+	"metadados":{
+		"cabecalho": {
+			"titulo": "Defesa Civil",
+			"descricao": "Dados das solicitações de atendimento para a Defesa Civil do Recife, das áreas de risco, das vistorias realizadas e da execução do serviço de colocação de lona",
+			"categoria_vcge": "http://vocab.e.gov.br/2011/03/vcge#defesa-civil",
+			"fonte_dados": "http://dados.recife.pe.gov.br",
+			"licenca": "Open Database License (ODbL)",
+			"responsavel_dados": "SEDEC",
+			"responsavel_disponibilizar": "EMPREL",
+			"frequencia_atualizacao": "Mensal",
+			"endereco_dataset": "http://dados.recife.pe.gov.br/dataset/monitoramento-das-areas-de-riscos",
+			"status": "ativo",
+			"endereco_dataset_substituto": "",
+			"granularidade": "",
+			"etiquetas": "Defesa Civil, codeci, defesa civi, lona, segurança, vistorias, Áreas de risco, áreas de riscos"
+		},
+		"recursos": [
+			{ 
+				"identificador": "http://dados.recife.pe.gov.br/dataset/monitoramento-das-areas-de-riscos/resource/5eaed1e8-aa7f-48d7-9512-638f80874870",
+				"titulo": "SEDEC Chamados",
+				"formato": "csv",
+				"descricao": "Chamados para verificação de áreas de risco no recife"
+			}
+		],
+		"campos": [
+			{
+				"codigo": "ano",
+				"descricao": "Ano",
+				"tipo": "Num",
+				"tamanho": 4,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "mes",
+				"descricao": "Mês",
+				"tipo": "Num",
+				"tamanho": 2,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "processo_numero",
+				"descricao": "Número do processo",
+				"tipo": "Num",
+				"tamanho": 10,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "solicitacao_data",
+				"descricao": "data da solicitação",
+				"tipo": "Num",
+				"tamanho": 10,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "solicitacao_hora",
+				"descricao": "hora da solicitação",
+				"tipo": "Num",
+				"tamanho": 10,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "solicitacao_descricao",
+				"descricao": "Descrição",
+				"tipo": "Char",
+				"tamanho": 300,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "solicitacao_regional",
+				"descricao": "região de localização do SEDEC",
+				"tipo": "Char",
+				"tamanho": 100,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "solicitacao_bairro",
+				"descricao": "Bairro",
+				"tipo": "Char",
+				"tamanho": 100,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "solicitacao_localidade",
+				"descricao": "localidade",
+				"tipo": "Char",
+				"tamanho": 200,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "solicitacao_endereco",
+				"descricao": "endereço",
+				"tipo": "Char",
+				"tamanho": 10,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "solicitacao_roteiro",
+				"descricao": "roteiro",
+				"tipo": "Char",
+				"tamanho": 100,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "rpa_codigo",
+				"descricao": "Código RPA",
+				"tipo": "Num",
+				"tamanho": 4,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "rpa_nome",
+				"descricao": "Nome da RPA",
+				"tipo": "Char",
+				"tamanho": 20,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "solicitacao_microrregiao",
+				"descricao": "Microregião da solicitação",
+				"tipo": "Char",
+				"tamanho": 20,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "solicitacao_plantao",
+				"descricao": "Plantão",
+				"tipo": "Char",
+				"tamanho": 3,
+				"valores_permitidos": "Sim, Não"
+			},
+			{
+				"codigo": "solicitacao_origem_chamado",
+				"descricao": "Origem do Chamado",
+				"tipo": "Char",
+				"tamanho": 50,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "latitude",
+				"descricao": "Coordenadas geográficas em graus decimais - Latitude",
+				"tipo": "Num",
+				"tamanho": 15,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "longitude",
+				"descricao": "Coordenadas geográficas em graus decimais - Longitude",
+				"tipo": "Num",
+				"tamanho": 15,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "solicitacao_vitimas",
+				"descricao": "vitimas",
+				"tipo": "Char",
+				"tamanho": 3,
+				"valores_permitidos": "Sim, Não"
+			},
+			{
+				"codigo": "solicitacao_vitimas_fatais",
+				"descricao": "Vitimas fatais",
+				"tipo": "Char",
+				"tamanho": 3,
+				"valores_permitidos": "Sim, Não"
+			},
+			{
+				"codigo": "processo_situacao",
+				"descricao": "situação",
+				"tipo": "Char",
+				"tamanho": 10,
+				"valores_permitidos": "execucao, completo"
+			},
+			{
+				"codigo": "processo_tipo",
+				"descricao": "tipo",
+				"tipo": "Char",
+				"tamanho": 20,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "processo_origem",
+				"descricao": "origem",
+				"tipo": "Char",
+				"tamanho": 100,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "processo_localizacao",
+				"descricao": "localização",
+				"tipo": "Char",
+				"tamanho": 100,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "processo_status",
+				"descricao": "status",
+				"tipo": "Char",
+				"tamanho": 10,
+				"valores_permitidos": "ARQUIVADO, TRAMITAÇÃO, CONCLUÍDO"
+			},
+			{
+				"codigo": "processo_data_conclusao",
+				"descricao": "data de conclusão",
+				"tipo": "Num",
+				"tamanho": 30,
+				"valores_permitidos": ""
+			}
+		]
+	}
+}

@@ -1,0 +1,320 @@
+---
+title: "Monitoramento das Áreas de Risco do Recife"
+author: "Fábio Alves de Freitas"
+date: "11/10/2020"
+bibliography: references.bib
+output: rmdformats::material
+highlight: kate
+df_print: paged
+#code_folding: hide
+css: style.css
+cls: template.csl
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r import_packages, message=FALSE, warning=FALSE, include=FALSE}
+list.of.packages <- c("kableExtra" ,"viridis", "ggplot2", "rmdformats", "rmarkdown", "dplyr", "tidyr", "readr", "knitr")
+lapply(list.of.packages, require, character.only = TRUE)
+options(knitr.table.format = "html")
+```
+
+
+# Introdução {.tabset}
+
+## Motivação
+
+Com o aumento populacional e a urbanização, muitas cidades em todo o Brasil passaram pelo processo da conurbação @conurbacao, que ocorre quando cidades entram em contato entre si a partir de seu crescimento.
+
+A urbanização da cidade do Recife teve um crescimento acelerado no Século XIX @aspectosRecife. Na década de 1970, a conurbação @conurbacao com os municípios do entorno é incentivada pela implantação de distritos industriais ao longo dos eixos rodoviários arteriais (BR-101, ao norte e ao sul, e BR-252 a oeste) e de grandes conjuntos habitacionais promovidos pelo Banco de Habitação Popular (BNH).
+
+Devido a este processo de metropolização ocorreu um crescimento demográfico elevado. A falta de local adequado para a contrução de novas maradia levou muitas pessoas a povoarem áreas de risco. Estas estão sujeitas a fenônemos como alagamentos e deslizamentos de terra próximo a enconstas, e que se tornam ainda mais comuns em épocas de chuva @videoexplicativo.
+
+É de suma importância a atuação preventiva com relação a ocupação de áreas de risco, cabendo ao município tomar as medidas cabíveis para evitá-las, incluindo utilizar a força policial em casos extremos @cartilhaareasrisco. Além disto, de acordo com a @lei6766, que restringe a aprovação de projetos de loteamento e desmembramento de terrenos sujeitos a alagamentos ou com declive maior que 30%, para desencorajar a ocupação destas áreas.
+
+Ao mesmo tempo, é necessário a tomada de medidas de atenuação. No caso de áreas de risco ocupadas, não se deve partir da premissa de que necessariamente deve haver a realocação. Estas medidas devem ocorrer a partir de estudos técnicos, delegando ao município a tomar decisões que visem o custo-benefício @cartilhaareasrisco @lei12608. Neste cenário, orgãos como o a secretaria-executiva de defesa civil (SEDEC) entram em cena, que desenvolvem ações preventivas com o objetivo de evitar ou minimizar acidentes em situações de calamidades.
+
+## Base de dados
+
+A SEDEC disponibiliza gratuitamente dados do monitoramento de áreas de risco da cidade do Recife @dadossedec. Eles contém registros dos chamados, colocação de lonas e vistorias realizadas pelo cidadão. A partir da análise destes dados, é possível prover relatório de muito úteis para facilitar as tomadas de decisão realizadas pelo município e que podem salvar muitas vidas.
+
+A base de dados é dividida em cinco arquivos do tipo **.csv**. Neles estão contidas as seguintes informações.
+
+```{r echo=FALSE}
+arquivos <- c(
+  "SEDEC Chamados", 
+  "SEDEC Vistorias", 
+  "SEDEC Lonas", 
+  "Solicitações", 
+  "Tipo de Ocorrência dos chamados"
+)
+conteudo <- c(
+  "Chamados para verificação de áreas de risco no recife",
+  "Vistorias realizadas nas possíveis áreas de riscos",
+  "Colocação de lonas em áreas de encostas",
+  "Informações geradas a partir do chamado do cidadão, que podem gerar chamados de colocação de lonas ou vistorias",
+  "Apresenta os tipos de ocorrências relacionados aos chamados realizados pelos cidadãos"
+)
+pacotes_descricao <- data.frame(
+  "Arquivos"=arquivos,
+  "Conteúdo"=conteudo
+)
+kable(pacotes_descricao, "html", booktabs = T) %>%
+  kable_styling(position = "center", bootstrap_options = c("responsive", "hover"), full_width = F)
+```
+
+## Metodologia
+
+
+A metodologia a utilizada foca em combinar as informações relacionadas ao total de ocorrências e as ocorrências vistoriadas, para que seja possível ranquear as áreas de risco do Recife. A base de dados está organizada de acordo com um modelo relacional, sendo possível correlacionais ocorrências específicas entre todas as tabelas. 
+
+## Resultados Esperados
+
+A análise dos dados nesta perspectiva indicará: regiões com mais urgência, levando em consideração épocas do ano; agilizará o trabalho dos profissionais da defesa civil, permitindo-os atender mais localidades; melhorar a cobertura do colocamento de lonas; analisar as regiões mais sucetíveis a gerar chamados à defesa civil.
+
+
+# Pacotes Requeridos {.tabset}
+
+Os pacotes a seguir são necessários para a execução do código que você verá nesse projeto. Sem eles, o código aqui demonstrado não será executado com sucesso.
+
+```{r echo=FALSE}
+pacotes <- c(
+  "rmarkdown", 
+  "rmdformats", 
+  "knitr", 
+  "kableExtra", 
+  "readr", 
+  "dplyr", 
+  "tidyr", 
+  "ggplot2",
+  "viridis"
+)
+utilizacao <- c(
+  "utilizado na conversão de arquivo em R em diversos formatos",
+  "customização do template gerado pelo rmarkdown",
+  "Geração de tabelas no rmarkdown",
+  "Geração de tabelas no rmarkdown",
+  "Carregamento dos datasets em memória",
+  "Manipulação avançada dos DataFrames",
+  "Manipulação avançada dos DataFrames",
+  "Visualização de gráficos",
+  "Customização da paleta de cores dos gráficos"
+)
+pacotes_descricao <- data.frame(
+  "pacotes"=pacotes,
+  "utilização"=utilizacao
+)
+kable(pacotes_descricao, "html", booktabs = T) %>%
+  kable_styling(position = "center", bootstrap_options = c("responsive", "hover"), full_width = F)
+
+```
+
+# Preparação dos Dados {.tabset}
+
+## Download da base de dados
+
+A base de dados pode ser obtida na página de dados abertos da cidade do recife ([link](http://dados.recife.pe.gov.br/dataset/monitoramento-das-areas-de-riscos)). O objetivo original dela é o de ter um registro aberto ao público de todas as ocorrências enviadas à SEDEC, que é a responsável por mantê-la, acrescentando novos registros a medida que novas ocorrências são enviadas a defesa civil.
+
+Como explicado na introdução, a base de dados consiste de cinco arquivos .csv, que armazenam as informações dos chamados, vistorias, solicitações, coloção de lonas e tipos de ocorrêcias. Todos os arquivos compartilham a coluna *processo_numero*, que funciona como uma chave primaria e serve para identificar um mesmo processo entre eles. A atualização da base de dados por parte da SEDEC não é tão fiel, ou seja, nem sempre um mesmo processo estará presente em todas os arquivos. Isto pode fazer com que alguns registros não possam ser analisados por completo.
+
+Para o processo de download foi adicionado um dataframe que associa o nome do arquivo a seu link de download na internet.
+```{r}
+dataset <- data.frame(
+  "url"=c(
+    "http://dados.recife.pe.gov.br/dataset/45dbabee-0352-411a-b289-66fccde8942a/resource/5eaed1e8-aa7f-48d7-9512-638f80874870/download/sedec_chamados.csv",   
+    "http://dados.recife.pe.gov.br/dataset/45dbabee-0352-411a-b289-66fccde8942a/resource/bb4b8cdb-122b-491a-80f7-b028b66108e1/download/sedec_vistorias.csv",
+    "http://dados.recife.pe.gov.br/dataset/45dbabee-0352-411a-b289-66fccde8942a/resource/48dd7535-329c-4a6a-bb2d-f26ebb1ab531/download/sedec_lonas.csv",
+    "http://dados.recife.pe.gov.br/dataset/45dbabee-0352-411a-b289-66fccde8942a/resource/fa35d810-b291-4e74-9282-3c4db1aca312/download/sedec_solicitacoes.csv",
+    "http://dados.recife.pe.gov.br/dataset/45dbabee-0352-411a-b289-66fccde8942a/resource/7a22d871-250e-419a-9b5a-1cab19db7be5/download/sedec_tipo_ocorrencias.csv"
+  ),
+  "filename"=c(
+    "sedec_chamados.csv",
+    "sedec_vistorias.csv",
+    "sedec_lonas.csv",
+    "sedec_solicitacoes.csv",
+    "sedec_tipo_ocorrencias.csv"
+  )
+) 
+```
+
+Este dataframe facilitará a verificação de existencia dos arquivos. No caso deles não existirem, iteramos uma repetição que fará o download automático dos mesmos.
+```{r, warning=FALSE}
+#Setting path to current directory "./"
+setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+
+#create folders if not exists
+dir.create("./dataset")
+
+#Download the dataset files if not exists
+for (i in 1:nrow(dataset)) {
+  url <- dataset$url[i]
+  filepath <- paste("./dataset/", dataset$filename[i], sep='')
+  if(!file.exists(filepath)) {
+    download.file(url, filepath)
+  }
+}
+```
+
+Para o processo de importação utilizaremos as funções do pacote **readr**, para manter as informações textuais com acentos apresentados corretamente. Os tópicos a seguir tratam da importação e limpeza dos dados dos arquivos.
+
+## SEDEC chamados
+
+Este arquivo contém as informações relacionadas aos chamados criados para a defesa civil. Informações como data de criação, data de finalização do chamado, localização, descrição, existência de vítimas e status do processo, etc. Muitos das colunas presentes nele não agregarão muito a análise de dados do projeto, por isso devem ser excluídas.
+
+```{r echo=FALSE}
+arquivos <- c(
+  "processo_numero",            
+  "solicitacao_data",         
+  "solicitacao_bairro",
+  "solicitacao_vitimas",        
+  "solicitacao_vitimas_fatais",
+  "processo_situacao",          
+  "processo_tipo",
+  "processo_status",            
+  "processo_data_conclusao" 
+)
+conteudo <- c(
+  "id do processo",            
+  "data de solicitação da ocorrência",  
+  "nome do bairro para se verificar a ocorrência",    
+  "indicação se há vítimas não fatais",        
+  "indicação se há vítimas fatais",
+  "indica situação do processo (completo ou em execução)",          
+  "indica o tipo do processo (atendimento ou monitoramento)",
+  "indica o status do processo (ARQUIVADO, CONCLUÍDO, DEFERIDO, TRAMITAÇÃO ou INDEFERIDO)",            
+  "data de conclusão do processo"
+)
+pacotes_descricao <- data.frame(
+  "Arquivos"=arquivos,
+  "Conteúdo"=conteudo
+)
+kable(pacotes_descricao, "html", booktabs = T) %>%
+  kable_styling(position = "center", bootstrap_options = c("responsive", "hover"), full_width = F)
+```
+
+```{r, results='hide'}
+#Importação
+data_chamados <- read_csv2("./dataset/sedec_chamados.csv", col_types = cols())
+
+#Salvando apenas colunas úteis
+data_chamados <- data_chamados %>% select(                       
+  "processo_numero",            
+  "solicitacao_data",         
+  "solicitacao_bairro",
+  "solicitacao_vitimas",        
+  "solicitacao_vitimas_fatais",
+  "processo_situacao",          
+  "processo_tipo",
+  "processo_status",            
+  "processo_data_conclusao" 
+)
+```
+
+Devido a erros no processo de preenchimento de novos registros, itens incorretos aparecem em colunas onde não deveria estar. Para isto é necessácio o processo de correção dos mesmos. Itens que estão em colunas incorretos são deletados, por não termos certeza de qual deveria ser seu valor real.
+
+### processo_status
+
+Antes da limpeza da coluna
+
+```{r}
+data_chamados$processo_status <- as.factor(data_chamados$processo_status)
+levels(data_chamados$processo_status)
+```
+
+Depois da limpeza da coluna
+
+```{r}
+levels(data_chamados$processo_status)[2] <- "CONCLUÍDO"
+levels(data_chamados$processo_status)[4] <- "TRAMITAÇÃO"
+levels(data_chamados$processo_status)[6] <- "TRAMITAÇÃO"
+levels(data_chamados$processo_status)
+```
+
+### solicitacao_bairro
+
+Coluna não precisa de limpeza, apenas conversão para tipo fator. Apresentação de todos os bairros do Recife.
+
+```{r}
+data_chamados$solicitacao_bairro <- as.factor(data_chamados$solicitacao_bairro)
+levels(data_chamados$solicitacao_bairro)
+```
+
+### processo_situacao
+
+Coluna não precisa de limpeza, apenas conversão para tipo fator.
+
+```{r}
+data_chamados$processo_situacao <- as.factor(data_chamados$processo_situacao)
+levels(data_chamados$processo_situacao)
+```
+
+### processo_tipo
+
+Coluna não precisa de limpeza, apenas conversão para tipo fator.
+
+```{r}
+data_chamados$processo_tipo <- as.factor(data_chamados$processo_tipo)
+levels(data_chamados$processo_tipo)
+```
+
+### Dados limpos
+
+Com a limpeza dos dados temos todas as colunas com informações mais coerêntes e preparadas para realização das análises.
+
+```{r}
+data_chamados[c(1, 100,300,5000,9000,30000),c(
+  "solicitacao_data", 
+  "solicitacao_bairro",
+  "solicitacao_vitimas",
+  "solicitacao_vitimas_fatais",
+  "processo_status",            
+  "processo_data_conclusao"
+)]
+```
+
+
+## SEDEC solicitacoes
+
+Este arquivo é muito semelhante ao SEDEC chamados, inclusive contendo muitas colunas com informações repetidas. Por ja possuirmos estas informações no dataframe dos chamados, removeremos as colunas repetidas do SEDEC solicitações.
+
+O resultado desta deleção será um dataframe com o "processo_numero" e o "processo_solicitacao".
+
+```{r, warning=F}
+aux_chamados <- read_csv2("./dataset/sedec_chamados.csv", col_types = cols())
+data_solicitacoes <- read_csv2("./dataset/sedec_solicitacoes.csv", col_types = cols())
+rows_chamados <- colnames(aux_chamados)
+rows_solicitacoes <- colnames(data_solicitacoes)
+data_solicitacoes <- data_solicitacoes %>% select("processo_numero", setdiff(rows_solicitacoes, rows_chamados))
+
+data_solicitacoes$processo_solicitacao <- as.factor(data_solicitacoes$processo_solicitacao)
+levels(data_solicitacoes$processo_solicitacao)
+```
+
+
+A coluna "processo_solicitacao" complementa a coluna "processo_tipo" do dataframe chamados. Desta forma, iremos dar um merge entre esses dois dataframes, de acordo com o "processo_numero", que é a chave primária de ambos.
+
+```{r, results='hide'}
+data_chamados <- merge(
+  x=data_chamados,
+  y=data_solicitacoes,
+  by="processo_numero",
+  all=F
+)
+```
+```{r echo=FALSE}
+
+## SEDEC vistorias
+
+## SEDEC lonas
+
+## SEDEC tipo ocorrencias
+```
+
+# Análise Exploratória dos Dados {.tabset}
+
+# Conclusões {.tabset}
+
+# Referências {.tabset}

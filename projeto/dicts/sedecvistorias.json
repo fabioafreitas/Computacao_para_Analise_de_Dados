@@ -1,0 +1,99 @@
+	{
+	"metadados":{
+		"cabecalho": {
+			"titulo": "Defesa Civil",
+			"descricao": "Dados das solicitações de atendimento para a Defesa Civil do Recife, das áreas de risco, das vistorias realizadas e da execução do serviço de colocação de lona",
+			"categoria_vcge": "http://vocab.e.gov.br/2011/03/vcge#defesa-civil",
+			"fonte_dados": "http://dados.recife.pe.gov.br",
+			"licenca": "Open Database License (ODbL)",
+			"responsavel_dados": "SEDEC",
+			"responsavel_disponibilizar": "EMPREL",
+			"frequencia_atualizacao": "Mensal",
+			"endereco_dataset": "http://dados.recife.pe.gov.br/dataset/monitoramento-das-areas-de-riscos",
+			"status": "ativo",
+			"endereco_dataset_substituto": "",
+			"granularidade": "",
+			"etiquetas": "Defesa Civil, codeci, defesa civi, lona, segurança, vistorias, Áreas de risco, áreas de riscos"
+		},
+		"recursos": [
+			{ 
+				"identificador": "http://dados.recife.pe.gov.br/dataset/monitoramento-das-areas-de-riscos/resource/bb4b8cdb-122b-491a-80f7-b028b66108e1",
+				"titulo": "SEDEC Vistorias",
+				"formato": "csv",
+				"descricao": "Vistorias realizadas nas possíveis áreas de riscos"
+			}
+		],
+		"campos": [
+			{
+				"codigo": "ano",
+				"descricao": "Ano",
+				"tipo": "Num",
+				"tamanho": 4,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "mes",
+				"descricao": "Mês",
+				"tipo": "Num",
+				"tamanho": 2,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "avaliador",
+				"descricao": "avaliador que realizou a vistoria",
+				"tipo": "Char",
+				"tamanho": 200,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "vistoria_data",
+				"descricao": "data da vistoria",
+				"tipo": "Num",
+				"tamanho": 10,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "vistoria_risco",
+				"descricao": "riscos encontrados na vistoria",
+				"tipo": "Num",
+				"tamanho": 10,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "vistoria_localidade",
+				"descricao": "localidade da vistoria",
+				"tipo": "Char",
+				"tamanho": 100,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "vistoria_rpa_codigo",
+				"descricao": "Código da RPA do local da vistoria",
+				"tipo": "Num",
+				"tamanho": 1,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "vistoria_microrregiao",
+				"descricao": "Microregião do local da vistoria",
+				"tipo": "Char",
+				"tamanho": 5,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "vistoria_setor",
+				"descricao": "Setor do local da vistoria",
+				"tipo": "Char",
+				"tamanho": 10,
+				"valores_permitidos": ""
+			},
+			{
+				"codigo": "processo_numero",
+				"descricao": "Número do processo",
+				"tipo": "Num",
+				"tamanho": 10,
+				"valores_permitidos": ""
+			}
+		]
+	}
+}
